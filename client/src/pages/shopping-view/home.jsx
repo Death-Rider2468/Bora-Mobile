@@ -10,6 +10,7 @@ import {
   CloudLightning,
   Globe,
   Headset,
+  Phone,
   Shield,
   Signal,
   Smartphone,
@@ -42,6 +43,7 @@ const brandsWithIcon = [
   { id: "xiaomi", label: "Xiaomi", icon: BatteryCharging},
   { id: "oppo", label: "Oppo", icon: Signal},
   { id: "vivo", label: "Vivo", icon: Globe},
+  { id: "number", label: "Phone Number", icon: Phone},
 ];
 function ShoppingHome() {
   const [currentSlide, setCurrentSlide] = useState(0);

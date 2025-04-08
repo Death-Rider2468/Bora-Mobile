@@ -74,6 +74,7 @@ export const addProductFormElements = [
       { id: "xiaomi", label: "Xiaomi" },
       { id: "oppo", label: "Oppo" },
       { id: "vivo", label: "Vivo" },
+      { id: "number", label: "Phone Number" },
     ],
   },
   {
@@ -145,6 +146,7 @@ export const brandOptionsMap = {
   xiaomi: "Xiaomi",
   oppo: "Oppo",
   vivo: "Vivo",
+  number: "Phone Number",
 };
 
 export const filterOptions = {
@@ -160,6 +162,7 @@ export const filterOptions = {
     { id: "xiaomi", label: "Xiaomi" },
     { id: "oppo", label: "Oppo" },
     { id: "vivo", label: "Vivo" },
+    { id: "number", label: "Phone Number" },
   ],
 };
 
