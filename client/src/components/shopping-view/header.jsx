@@ -23,6 +23,7 @@ import UserCartWrapper from "./cart-wrapper";
 import { useEffect, useState } from "react";
 import { fetchCartItems } from "@/store/shop/cart-slice";
 import { Label } from "../ui/label";
+import logo from './logo.png'; 
 
 function MenuItems() {
   const navigate = useNavigate();
@@ -32,7 +33,7 @@ function MenuItems() {
   function handleNavigate(getCurrentMenuItem) {
     sessionStorage.removeItem("filters");
     const currentFilter =
-      getCurrentMenuItem.id !== "home" &&
+      // getCurrentMenuItem.id !== "home" &&
       getCurrentMenuItem.id !== "products" &&
       getCurrentMenuItem.id !== "search"
         ? {
@@ -138,9 +139,10 @@ function ShoppingHeader() {
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background">
       <div className="flex h-16 items-center justify-between px-4 md:px-6">
-        <Link to="/shop/home" className="flex items-center gap-2">
-          <House className="h-6 w-6" />
-          <span className="font-bold">Bora Mobile</span>
+        <Link to="/shop/listing" className="flex items-center gap-2">
+        <div className="flex items-center">
+        <img src={logo} alt="BORA MOBILE WORLD" className="h-16 w-32 w-auto" />
+      </div>
         </Link>
         <Sheet>
           <SheetTrigger asChild>
