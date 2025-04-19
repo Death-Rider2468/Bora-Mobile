@@ -29,6 +29,8 @@ function AdminDashboard() {
       return;
     }
   
+    console.log("Deleting image with ID:", imageId);
+  
     dispatch(deleteFeatureImage(imageId)).then((data) => {
       if (data?.payload?.success) {
         dispatch(getFeatureImages()); // Refresh the list
@@ -49,11 +51,18 @@ function AdminDashboard() {
         setUploadedImageUrl={setUploadedImageUrl}
         setImageLoadingState={setImageLoadingState}
         imageLoadingState={imageLoadingState}
+        isEditMode={false} // or true if editing
         isCustomStyling={true}
       />
-      <Button onClick={handleUploadFeatureImage} className="mt-5 w-full">
+
+      <Button
+        onClick={handleUploadFeatureImage}
+        className="mt-5 w-full"
+        disabled={!uploadedImageUrl || imageLoadingState}
+      >
         Upload
       </Button>
+      
       <div className="flex flex-col gap-4 mt-5">
         {featureImageList && featureImageList.length > 0
           ? featureImageList.map((featureImgItem) => (
