@@ -17,9 +17,10 @@ const commonFeatureRouter = require("./routes/common/feature-routes");
 
 //create a database connection -> u can also
 //create a separate file for this and then import/use that file here
+require("dotenv").config();
 
 mongoose
-  .connect("mongodb+srv://mohitmuley:mohitmuley1204@cluster0.tnyel.mongodb.net/")
+  .connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB connected"))
   .catch((error) => console.log(error));
 
