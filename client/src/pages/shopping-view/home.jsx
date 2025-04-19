@@ -1,7 +1,4 @@
 import { Button } from "@/components/ui/button";
-import bannerOne from "../../assets/banner-1.webp";
-import bannerTwo from "../../assets/banner-2.webp";
-import bannerThree from "../../assets/banner-3.webp";
 import {
   Apple,
   BatteryCharging,
@@ -37,25 +34,23 @@ const categoriesWithIcon = [
 ];
 
 const brandsWithIcon = [
-  { id: "apple", label: "Apple", icon: Apple},
-  { id: "samsung", label: "Samsung", icon: Shield},
-  { id: "oneplus", label: "OnePlus", icon: CloudLightning},
-  { id: "xiaomi", label: "Xiaomi", icon: BatteryCharging},
-  { id: "oppo", label: "Oppo", icon: Signal},
-  { id: "vivo", label: "Vivo", icon: Globe},
-  { id: "number", label: "Phone Number", icon: Phone},
+  { id: "apple", label: "Apple", icon: Apple },
+  { id: "samsung", label: "Samsung", icon: Shield },
+  { id: "oneplus", label: "OnePlus", icon: CloudLightning },
+  { id: "xiaomi", label: "Xiaomi", icon: BatteryCharging },
+  { id: "oppo", label: "Oppo", icon: Signal },
+  { id: "vivo", label: "Vivo", icon: Globe },
+  { id: "number", label: "Phone Number", icon: Phone },
 ];
+
 function ShoppingHome() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const { productList, productDetails } = useSelector(
     (state) => state.shopProducts
   );
   const { featureImageList } = useSelector((state) => state.commonFeature);
-
   const [openDetailsDialog, setOpenDetailsDialog] = useState(false);
-
   const { user } = useSelector((state) => state.auth);
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -65,7 +60,6 @@ function ShoppingHome() {
     const currentFilter = {
       [section]: [getCurrentItem.id],
     };
-
     sessionStorage.setItem("filters", JSON.stringify(currentFilter));
     navigate(`/shop/listing`);
   }
@@ -112,8 +106,6 @@ function ShoppingHome() {
     );
   }, [dispatch]);
 
-  console.log(productList, "productList");
-
   useEffect(() => {
     dispatch(getFeatureImages());
   }, [dispatch]);
@@ -159,6 +151,7 @@ function ShoppingHome() {
           <ChevronRightIcon className="w-4 h-4" />
         </Button>
       </div>
+
       <section className="py-12 bg-gray-50">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-8">
@@ -167,6 +160,7 @@ function ShoppingHome() {
           <div className="flex justify-center items-center gap-6 flex-wrap">
             {categoriesWithIcon.map((categoryItem) => (
               <Card
+                key={categoryItem.id}
                 onClick={() =>
                   handleNavigateToListingPage(categoryItem, "category")
                 }
@@ -186,17 +180,25 @@ function ShoppingHome() {
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-8">Shop by Brand</h2>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-            {brandsWithIcon.map((brandItem) => (
-              <Card
-                onClick={() => handleNavigateToListingPage(brandItem, "brand")}
-                className="cursor-pointer hover:shadow-lg transition-shadow"
-              >
-                <CardContent className="flex flex-col items-center justify-center p-6">
-                  <brandItem.icon className="w-12 h-12 mb-4 text-primary" />
-                  <span className="font-bold">{brandItem.label}</span>
-                </CardContent>
-              </Card>
-            ))}
+            {brandsWithIcon.map((brandItem, index) => {
+              const isLastItem = index === brandsWithIcon.length - 1;
+              return (
+                <Card
+                  key={brandItem.id}
+                  onClick={() =>
+                    handleNavigateToListingPage(brandItem, "brand")
+                  }
+                  className={`cursor-pointer hover:shadow-lg transition-shadow ${
+                    isLastItem ? "lg:col-span-2 lg:col-start-3" : ""
+                  }`}
+                >
+                  <CardContent className="flex flex-col items-center justify-center p-6">
+                    <brandItem.icon className="w-12 h-12 mb-4 text-primary" />
+                    <span className="font-bold">{brandItem.label}</span>
+                  </CardContent>
+                </Card>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -210,6 +212,7 @@ function ShoppingHome() {
             {productList && productList.length > 0
               ? productList.map((productItem) => (
                   <ShoppingProductTile
+                    key={productItem.id}
                     handleGetProductDetails={handleGetProductDetails}
                     product={productItem}
                     handleAddtoCart={handleAddtoCart}
@@ -219,6 +222,7 @@ function ShoppingHome() {
           </div>
         </div>
       </section>
+
       <ProductDetailsDialog
         open={openDetailsDialog}
         setOpen={setOpenDetailsDialog}
