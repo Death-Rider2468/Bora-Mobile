@@ -1,4 +1,4 @@
-# 📱 Bora Mobile Shop Website  
+# 📱 Bora Mobile World Website  
 
 A **full-fledged e-commerce platform** where users can **buy mobile phones, accessories, and VIP numbers**, while admins can **manage products** efficiently.
 
