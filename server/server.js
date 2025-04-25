@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
+
 const authRouter = require("./routes/auth/auth-routes");
 const adminProductsRouter = require("./routes/admin/products-routes");
 const adminOrderRouter = require("./routes/admin/order-routes");
@@ -15,17 +16,18 @@ const shopReviewRouter = require("./routes/shop/review-routes");
 
 const commonFeatureRouter = require("./routes/common/feature-routes");
 
-//create a database connection -> u can also
-//create a separate file for this and then import/use that file here
+const Razorpay = require("razorpay");
 
+const app = express();
+const PORT = process.env.PORT || 5000;
+
+// MongoDB connection
 mongoose
   .connect("mongodb+srv://mohitmuley:mohitmuley1204@cluster0.tnyel.mongodb.net/")
   .then(() => console.log("MongoDB connected"))
   .catch((error) => console.log(error));
 
-const app = express();
-const PORT = process.env.PORT || 5000;
-
+// Middleware
 app.use(
   cors({
     origin: "http://localhost:5173",
@@ -40,9 +42,10 @@ app.use(
     credentials: true,
   })
 );
-
 app.use(cookieParser());
 app.use(express.json());
+
+// API Routes
 app.use("/api/auth", authRouter);
 app.use("/api/admin/products", adminProductsRouter);
 app.use("/api/admin/orders", adminOrderRouter);
@@ -56,4 +59,30 @@ app.use("/api/shop/review", shopReviewRouter);
 
 app.use("/api/common/feature", commonFeatureRouter);
 
+// Razorpay setup
+const razorpay = new Razorpay({
+  key_id: "rzp_test_tpclvUbIpO4uPB",        
+  key_secret: "J5tQGML8uDH3MbwKCMZiw7Uf", 
+});
+
+// Razorpay order creation route
+app.post("/api/create-order", async (req, res) => {
+  const { totalAmount } = req.body;
+
+  const options = {
+    amount: totalAmount * 100, // amount in paise
+    currency: "INR",
+    receipt: "receipt_order_" + Math.floor(Math.random() * 1000000),
+  };
+
+  try {
+    const order = await razorpay.orders.create(options);
+    res.status(200).json({ order });
+  } catch (err) {
+    console.error("Razorpay Error:", err);
+    res.status(500).json({ error: "Failed to create Razorpay order" });
+  }
+});
+
+// Start server
 app.listen(PORT, () => console.log(`Server is now running on port ${PORT}`));
